@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+
+{% block title %}Students{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Students</h1>
+        <p>Manage all registered students.</p>
+    </div>
+
+    <a href="{{ url_for('add_student') }}" class="btn btn-primary">
+        <i class="bi bi-person-plus-fill"></i>
+        Add Student
+    </a>
+
+</div>
+<div class="row mb-3">
+
+    <div class="col-md-6">
+
+        <input
+            type="text"
+            id="searchInput"
+            class="form-control"
+            placeholder="🔍 Search by Name, Roll No or Course">
+
+    </div>
+
+</div>
+<div class="row align-items-end mb-4">
+
+    
+    <div class="col-md-2">
+
+        <label class="form-label">Course</label>
+
+        <select class="form-select" id="courseFilter">
+
+            <option value="">All</option>
+
+            <option>BCA</option>
+
+            <option>BBA</option>
+            <option>MCA</option>
+            <option>B.Tech</option>
+            <option>M.Tech</option>
+            <option>B.Com</option>
+            <option>B.A</option>
+            <option>MBA</option>
+            
+
+
+        </select>
+
+    </div>
+
+    <!-- Semester -->
+
+    <div class="col-md-2">
+
+        <label class="form-label">Semester</label>
+
+        <select class="form-select" id="semesterFilter">
+
+            <option value="">All</option>
+
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+
+        </select>
+
+    </div>
+
+    <!-- Gender -->
+
+    <div class="col-md-2">
+
+        <label class="form-label">Gender</label>
+
+        <select class="form-select" id="genderFilter">
+
+            <option value="">All</option>
+
+            <option>Male</option>
+
+            <option>Female</option>
+
+        </select>
+
+    </div>
+
+    <!-- Reset -->
+
+    <div class="col-md-2">
+
+        <button
+            class="btn btn-outline-secondary w-100"
+            id="resetFilters">
+
+            Reset
+
+        </button>
+
+    </div>
+
+</div>
+
+    <table class="table table-striped" id="studentTable">
+        <thead>
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Name</th>
+
+            <th>Roll No</th>
+
+            <th>Course</th>
+
+            <th>Semester</th>
+
+            <th>Gender</th>
+
+            <th>Email</th>
+
+            <th>Phone</th>
+
+            <th>Action</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for student in students.items %}
+
+        <tr>
+
+            <td>{{ student.id }}</td>
+
+            <td>{{ student.name }}</td>
+
+            <td>{{ student.roll_no }}</td>
+
+            <td>{{ student.course }}</td>
+
+            <td>{{ student.semester }}</td>
+
+            <td>{{ student.gender }}</td>
+
+            <td>{{ student.email }}</td>
+
+            <td>{{ student.phone }}</td>
+
+            <td>
+                <a href="{{ url_for('student_profile', id=student.id) }}"
+   class="btn btn-info btn-sm">
+
+    <i class="bi bi-eye-fill"></i>
+
+</a>
+
+                <a href="/edit/{{ student.id }}" class="btn btn-warning btn-sm">
+
+                    <i class="bi bi-pencil-square"></i>
+
+                </a>
+
+                <a href="/delete/{{ student.id }}"
+                class="btn btn-danger btn-sm"
+                onclick="return confirm('Delete this student?')">
+
+                    <i class="bi bi-trash"></i>
+
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+    <nav class="mt-4">
+    <ul class="pagination justify-content-center">
+
+        {% if students.has_prev %}
+        <li class="page-item">
+            <a class="page-link"
+               href="{{ url_for('students', page=students.prev_num) }}">
+                Previous
+            </a>
+        </li>
+        {% endif %}
+
+        {% for page_num in students.iter_pages() %}
+            {% if page_num %}
+                <li class="page-item {% if page_num == students.page %}active{% endif %}">
+                    <a class="page-link"
+                       href="{{ url_for('students', page=page_num) }}">
+                        {{ page_num }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if students.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+               href="{{ url_for('students', page=students.next_num) }}">
+                Next
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+
+</div>
+
+<script>
+
+const search=document.getElementById("searchInput");
+
+search.addEventListener("keyup",function(){
+
+let value=this.value.toLowerCase();
+
+let rows=document.querySelectorAll("#studentTable tbody tr");
+
+rows.forEach(row=>{
+
+row.style.display=row.innerText.toLowerCase().includes(value)
+? ""
+: "none";
+
+});
+
+});
+
+</script>
+<script>
+
+document.getElementById("searchInput").addEventListener("keyup", function () {
+
+    let value = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#studentTable tbody tr");
+
+    rows.forEach(function(row){
+
+        let text = row.innerText.toLowerCase();
+
+        if(text.includes(value))
+            row.style.display = "";
+
+        else
+            row.style.display = "none";
+
+    });
+
+});
+
+
+</script>
+<script>
+
+const searchInput = document.getElementById("searchInput");
+const courseFilter = document.getElementById("courseFilter");
+const semesterFilter = document.getElementById("semesterFilter");
+const genderFilter = document.getElementById("genderFilter");
+
+function filterStudents() {
+
+    let search = searchInput.value.toLowerCase();
+    let course = courseFilter.value.toLowerCase();
+    let semester = semesterFilter.value.toLowerCase();
+    let gender = genderFilter.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#studentTable tbody tr");
+
+    rows.forEach(row => {
+
+        let text = row.innerText.toLowerCase();
+
+        let matchSearch = text.includes(search);
+        let matchCourse = !course || text.includes(course);
+        let matchSemester = !semester || text.includes(semester);
+        let matchGender = !gender || text.includes(gender);
+
+        row.style.display =
+            (matchSearch && matchCourse && matchSemester && matchGender)
+            ? ""
+            : "none";
+
+    });
+
+}
+
+searchInput.addEventListener("keyup", filterStudents);
+courseFilter.addEventListener("change", filterStudents);
+semesterFilter.addEventListener("change", filterStudents);
+genderFilter.addEventListener("change", filterStudents);
+
+document.getElementById("resetFilters").addEventListener("click", function () {
+
+    searchInput.value = "";
+    courseFilter.value = "";
+    semesterFilter.value = "";
+    genderFilter.value = "";
+
+    filterStudents();
+
+});
+
+</script>
+
+{% endblock %}

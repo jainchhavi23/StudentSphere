@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="dashboard-header">
+    <h1 class="dashboard-title">
+        Welcome , {{ session['admin'] }} 
+    </h1>
+</div>
+<div class="stats-container">
+    <div class="stat-card total">
+        <div class="icon">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div>
+            <h5>Total Students</h5>
+            <h2>{{ total_students }}</h2>
+        </div>
+    </div>
+    <div class="stat-card male">
+        <div class="icon">
+            <i class="bi bi-person-fill"></i>
+        </div>
+        <div>
+            <h5>Male Students</h5>
+            <h2>{{ male_students }}</h2>
+        </div>
+    </div>
+    <div class="stat-card female">
+        <div class="icon">
+            <i class="bi bi-person-hearts"></i>
+        </div>
+        <div>
+            <h5>Female Students</h5>
+            <h2>{{ female_students }}</h2>
+        </div>
+    </div>
+    <div class="stat-card new">
+        <div class="icon">
+            <i class="bi bi-person-plus-fill"></i>
+        </div>
+        <div>
+            <h5>New Students</h5>
+            <h2>{{ new_students }}</h2>
+        </div>
+    </div>
+</div>
+<div class="dashboard-grid">
+<div class="recent-students">
+<div class="section-header">
+<h3>Recent Students</h3>
+<a href="{{ url_for('students') }}">
+View All
+</a>
+</div>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Course</th>
+<th>Semester</th>
+<th>Gender</th>
+<th>Email</th>
+</tr>
+</thead>
+<tbody>
+{% for student in recent_students %}
+<tr>
+<td>{{ student.name }}</td>
+<td>{{ student.course }}</td>
+<td>{{ student.semester }}</td>
+<td>{{ student.gender }}</td>
+<td>{{ student.email }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Students by Course</h5>
+            <canvas id="courseChart"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Semester Wise Students</h5>
+            <canvas id="semesterChart"></canvas>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const courseCtx = document.getElementById('courseChart');
+new Chart(courseCtx, {
+    type: 'bar',
+    data: {
+        labels: {{ course_labels|tojson }},
+        datasets: [{
+            label: 'Students',
+            data: {{ course_counts|tojson }},
+            backgroundColor: [
+                '#2563eb',
+                '#22c55e',
+                '#f59e0b',
+                '#ef4444',
+                '#8b5cf6',
+                '#06b6d4'
+            ],
+            borderRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins:{
+            legend:{
+                display:false
+            }
+        }
+    }
+});
+const semesterCtx = document.getElementById('semesterChart');
+new Chart(semesterCtx, {
+    type: 'pie',
+    data: {
+        labels: {{ semester_labels|tojson }},
+        datasets: [{
+            data: {{ semester_counts|tojson }},
+            backgroundColor: [
+                '#2563eb',
+                '#22c55e',
+                '#f59e0b',
+                '#ef4444',
+                '#8b5cf6',
+                '#06b6d4',
+                '#14b8a6',
+                '#ec4899'
+            ]
+        }]
+    },
+    options:{
+        responsive:true
+    }
+});
+</script>
+{% endblock %}

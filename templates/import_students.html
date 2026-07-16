@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-title">
+
+    <div>
+        <h1>
+            <i class="fa-solid fa-file-import"></i>
+            Import Students
+        </h1>
+
+        <p>
+            Upload Excel (.xlsx) or CSV file to add multiple students.
+        </p>
+    </div>
+
+</div>
+<div class="import-card">
+
+    <div class="import-icon">
+        <i class="fa-solid fa-file-import"></i>
+    </div>
+
+    <h2>Upload Student File</h2>
+
+    <p class="subtitle">
+        Supported formats: Excel (.xlsx) & CSV
+    </p>
+
+    <form action="{{ url_for('import_students') }}"
+      method="POST"
+      enctype="multipart/form-data">
+
+    <label for="fileInput" class="file-box">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <p>Click here to choose Excel or CSV file</p>
+
+        <input
+            type="file"
+            id="fileInput"
+            name="file"
+            accept=".xlsx,.csv"
+            required
+            hidden>
+    </label>
+
+    <button type="submit" class="upload-btn">
+        <i class="fa-solid fa-upload"></i>
+        Import Students
+    </button>
+
+</form>
+</div>
+<script>
+const fileInput = document.getElementById("fileInput");
+
+fileInput.addEventListener("change", function () {
+
+    if(this.files.length > 0){
+        document.querySelector(".file-box h3").innerHTML =
+            this.files[0].name;
+    }
+
+});
+</script>
+{% endblock %}

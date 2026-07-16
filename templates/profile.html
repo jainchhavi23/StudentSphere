@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<div class="profile-card">
+
+    <div class="profile-header">
+
+        <i class="bi bi-person-circle profile-icon"></i>
+
+        <h2>{{ admin.username }}</h2>
+
+        <p>Administrator</p>
+
+    </div>
+
+    <hr>
+
+    <div class="profile-info">
+
+        <div class="info-box">
+
+            <label>Username</label>
+
+            <h5>{{ admin.username }}</h5>
+
+        </div>
+
+        <div class="info-box">
+
+            <label>Email</label>
+
+            <h5>{{ admin.email }}</h5>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

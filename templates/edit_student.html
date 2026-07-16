@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Student{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+
+    <h2>Edit Student</h2>
+    <p>Update student information.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <label>Name</label>
+                <input type="text" class="form-control" name="name" value="{{ student.name }}" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Roll No</label>
+                <input type="text" class="form-control" name="roll_no" value="{{ student.roll_no }}" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Email</label>
+                <input type="email" class="form-control" name="email" value="{{ student.email }}" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Phone</label>
+                <input type="text" class="form-control" name="phone" value="{{ student.phone }}" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Course</label>
+                <input type="text" class="form-control" name="course" value="{{ student.course }}" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Semester</label>
+                <input type="text" class="form-control" name="semester" value="{{ student.semester }}" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Gender</label>
+
+                <select class="form-control" name="gender">
+
+                    <option {% if student.gender=="Male" %}selected{% endif %}>Male</option>
+
+                    <option {% if student.gender=="Female" %}selected{% endif %}>Female</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-12 mb-3">
+
+                <label>Address</label>
+
+                <textarea class="form-control"
+                name="address"
+                rows="4">{{ student.address }}</textarea>
+
+            </div>
+            
+        <label>Date of Birth</label>
+
+<input
+type="date"
+name="dob"
+class="form-control"
+value="{{ student.dob }}"
+required>
+<label>Admission Date</label>
+
+<input
+type="date"
+name="admission_date"
+class="form-control"
+value="{{ student.admission_date }}"
+required>
+<label>Current Photo</label><br>
+
+{% if student.photo %}
+<img
+src="{{ url_for('static', filename='uploads/' + student.photo) }}"
+width="120"
+height="120"
+style="border-radius:10px; object-fit:cover;">
+{% else %}
+<p>No Photo Available</p>
+{% endif %}
+
+<br><br>
+
+<label>Change Photo</label>
+
+<input
+type="file"
+name="photo"
+class="form-control"
+accept="image/*">
+        <button class="btn btn-success">
+
+            <i class="bi bi-check-circle"></i>
+
+            Update Student
+
+        </button>
+
+        <a href="{{ url_for('students') }}" class="btn btn-secondary">
+
+            Cancel
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Reports{% endblock %}
+{% block page_title %}Reports{% endblock %}
+
+{% block content %}
+
+<div class="report-container">
+
+    <h2>Generate Student Report</h2>
+
+    <p>Select filters to generate reports.</p>
+
+    <form action="/download-report" method="POST">
+
+        <!-- Course -->
+
+        <div class="mb-3">
+
+            <label class="form-label">
+
+                Course
+
+            </label>
+
+           <select class="form-select" name="course">
+    <option value="All">All Courses</option>
+
+    {% for course in courses %}
+        <option value="{{ course }}">{{ course }}</option>
+    {% endfor %}
+</select>
+
+        </div>
+
+        <!-- Semester -->
+
+        <div class="mb-3">
+
+            <label class="form-label">
+
+                Semester
+
+            </label>
+
+            <select class="form-select" name="semester">
+    <option value="All">All Semesters</option>
+
+    {% for semester in semesters %}
+        <option value="{{ semester }}">{{ semester }}</option>
+    {% endfor %}
+</select>
+        </div>
+
+        <!-- Gender -->
+
+        <div class="mb-3">
+
+            <label class="form-label">
+
+                Gender
+
+            </label>
+
+            <select
+            class="form-select"
+            name="gender">
+
+                <option value="All">All</option>
+
+                <option>Male</option>
+
+                <option>Female</option>
+                <option>Other</option>
+
+            </select>
+
+        </div>
+
+        <!-- File Type -->
+
+        <div class="mb-4">
+
+            <label class="form-label">
+
+                Download Format
+
+            </label>
+
+            <br>
+
+            <input
+            type="radio"
+            name="file_type"
+            value="pdf"
+            checked>
+
+            PDF
+
+            &nbsp;&nbsp;
+
+            <input
+            type="radio"
+            name="file_type"
+            value="excel">
+
+            Excel
+
+        </div>
+
+        <button
+        class="btn btn-primary">
+
+            <i class="bi bi-download"></i>
+
+            Generate Report
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
