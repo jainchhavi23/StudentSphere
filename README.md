@@ -78,7 +78,9 @@ Run the project
 python app.py
 ```
 
+## 🌐 Live Demo
 
+https://studentsphere-7hfz.onrender.com
 ---
 
 ## 👩‍💻 Developer
