@@ -86,7 +86,6 @@ https://studentsphere-7hfz.onrender.com
 ## 👩‍💻 Developer
 
 Chhavi Jain
-
 BCA Student | Python Developer | Flask Developer
 
 jchhavi2317@gmail.com
