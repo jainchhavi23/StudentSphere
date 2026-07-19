@@ -89,6 +89,8 @@ Chhavi Jain
 
 BCA Student | Python Developer | Flask Developer
 
+jchhavi2317@gmail.com
+
 ---
 
 ⭐ If you like this project, don't forget to star the repository.
